@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Banner from '../components/Banner'
 import Card from '../components/Card'
+import useTrackLocation from '../hooks/use-track-location'
 
 import coffeeStoresSeed from '../data/coffee-stores.json';
 
@@ -19,10 +20,16 @@ export async function getStaticProps(context) {
 
 export default function Home(props) {
 
+const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } = useTrackLocation();
+
+
   console.log(props);
+  console.log({ latLong })
+  console.log({ locationErrorMsg })
 
   const handleOnBannerButtonClick = () => {
     console.log('button clicked')
+    handleTrackLocation()
   }
 
 
@@ -36,9 +43,13 @@ export default function Home(props) {
 
       <main className={styles.main}>
         <Banner
-          buttonText="View stores nearby."
+          buttonText={isFindingLocation ? "Locating..." : "View stores nearby."}
           handleOnClick={handleOnBannerButtonClick}
         />
+
+        <div>
+          {locationErrorMsg ? `Something went wrong: ${locationErrorMsg}` : ''}
+        </div>
         <div className={styles.heroImage}>
           <Image  src="/static/hero-image.png" width={700} height={400}/>
         </div>

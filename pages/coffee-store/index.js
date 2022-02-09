@@ -3,8 +3,8 @@ import Link from "next/link"
 
 import coffeeStoresData from '../data/coffee-stores.json'
 
-export function getStaticProps () {
-
+export function getStaticPaths () {
+    
 }
 
 const CoffeeStore = () => {
