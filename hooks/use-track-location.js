@@ -45,3 +45,7 @@ const useTrackLocation = () => {
 }
 
 export default useTrackLocation;
+
+// the useTrackLocation has many functions, all handled in the handleTrackLocation method.
+// since they are all being returned by the hook, they are all accesible via deconsutructuring
+// that makes their values available to us in other files.
