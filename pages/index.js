@@ -4,28 +4,15 @@ import styles from '../styles/Home.module.css'
 import Banner from '../components/Banner'
 import Card from '../components/Card'
 import useTrackLocation from '../hooks/use-track-location'
-
-import coffeeStoresSeed from '../data/coffee-stores.json';
+import { fetchCoffeeStore } from '../lib/coffee-stores'
 
 export async function getStaticProps(context) {
 
-  const options = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Authorization: 'fsq3P07007kINeZeu2dCHHvyxLMfBw3nGKBZtdTtHufh39U='
-    }
-  };
-  
-  const response = await fetch('https://api.foursquare.com/v3/places/nearby?ll=43.65267326999575%2C-79.39545615725015&query=coffee%20stores&limit=6', options)
-
-  
-  const data = await response.json();
-  console.log(data);
+  const coffeeStores = await fetchCoffeeStore();
 
   return {
     props: {
-      coffeeStores: data.results
+      coffeeStores
     }, // will be passed to the page component as props
   }
 }
@@ -74,7 +61,7 @@ const { handleTrackLocation, latLong, locationErrorMsg, isFindingLocation } = us
                 key={coffeeStore.id}
                 name={coffeeStore.name}
                 imgUrl={coffeeStore.imgUrl || "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"}
-                href={`/coffee-store/${coffeeStore.id}`}
+                href={`/coffee-store/${coffeeStore.fsq_id}`}
                 className={styles.card}
               />
             );
